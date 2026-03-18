@@ -1,0 +1,5 @@
+{
+  "name": "Nullxes Digital",
+  "description": "Platform for purchasing digital employees (AI Agent + Avatars)",
+  "requestFramePermissions": ["microphone"]
+}
