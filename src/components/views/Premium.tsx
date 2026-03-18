@@ -45,7 +45,7 @@ export function Premium() {
 
         {/* Pro Tier */}
         <div className="bg-[#1a1a1a] border border-emerald-500/30 rounded-3xl p-8 flex flex-col relative overflow-hidden transform md:-translate-y-4 shadow-2xl shadow-emerald-900/20">
-          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-500" />
+          <div className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-emerald-400 to-teal-500" />
           <div className="absolute top-4 right-4 bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full border border-emerald-500/30">
             Most Popular
           </div>

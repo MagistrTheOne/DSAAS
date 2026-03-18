@@ -12,6 +12,7 @@ export interface Employee {
   voiceName: string;
   complianceMode?: boolean;
   knowledgeBase?: string[];
+  instructions?: string;
   budgetLimit?: number;
 }
 

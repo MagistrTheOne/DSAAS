@@ -11,7 +11,7 @@ export const getGeminiClient = () => {
 export const generateChatResponse = async (prompt: string, systemInstruction: string) => {
   const ai = getGeminiClient();
   const response = await ai.models.generateContent({
-    model: 'gemini-3.1-pro-preview',
+    model: 'gemini-2.5-flash',  // ✅ был: gemini-2.5-flash-preview
     contents: prompt,
     config: {
       systemInstruction,
@@ -23,7 +23,7 @@ export const generateChatResponse = async (prompt: string, systemInstruction: st
 export const generateSpeech = async (text: string, voiceName: string) => {
   const ai = getGeminiClient();
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-preview-tts',
+    model: 'gemini-2.5-flash-preview-tts',  // проверь актуальность в документации
     contents: [{ parts: [{ text }] }],
     config: {
       responseModalities: [Modality.AUDIO],
@@ -41,16 +41,14 @@ export const generateSpeech = async (text: string, voiceName: string) => {
 
 export const generateAvatar = async (prompt: string) => {
   const ai = getGeminiClient();
+  // ✅ был: gemini-3.1-flash-image-preview (не существует)
   const response = await ai.models.generateContent({
-    model: 'gemini-3.1-flash-image-preview',
+    model: 'gemini-2.0-flash-preview-image-generation',
     contents: {
       parts: [{ text: prompt }],
     },
     config: {
-      imageConfig: {
-        aspectRatio: '1:1',
-        imageSize: '1K',
-      },
+      responseModalities: [Modality.IMAGE, Modality.TEXT],
     },
   });
   

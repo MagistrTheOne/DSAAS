@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Employee } from '../../types';
 import { Search, Filter, Mic, ShieldCheck, Building2 } from 'lucide-react';
 
@@ -10,6 +10,18 @@ interface DashboardProps {
 export function Dashboard({ employees, onSelect }: DashboardProps) {
   const [filter, setFilter] = useState<string>('All');
   const professions = ['All', ...Array.from(new Set(employees.map(e => e.profession)))];
+
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
+  const setVideoRef = (id: string) => (el: HTMLVideoElement | null) => {
+    videoRefs.current[id] = el;
+  };
+
+  const setVideoMuted = (id: string, muted: boolean) => {
+    const v = videoRefs.current[id];
+    if (!v) return;
+    v.muted = muted;
+    if (!muted) v.play().catch(() => {});
+  };
 
   const filteredEmployees = filter === 'All' 
     ? employees 
@@ -58,13 +70,29 @@ export function Dashboard({ employees, onSelect }: DashboardProps) {
             className="group relative bg-[#111] border border-white/5 rounded-2xl overflow-hidden cursor-pointer hover:border-white/20 transition-all duration-300 hover:-translate-y-1"
           >
             <div className="aspect-square relative overflow-hidden bg-zinc-900">
-              <img 
-                src={emp.avatarUrl} 
-                alt={emp.name} 
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
+              {emp.avatarUrl.toLowerCase().endsWith('.mp4') ? (
+                <video
+                  src={emp.avatarUrl}
+                  poster={emp.avatarUrl.replace(/\.mp4$/i, '.jpg')}
+                  muted
+                  playsInline
+                  autoPlay
+                  loop
+                  preload="metadata"
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0"
+                  ref={setVideoRef(emp.id)}
+                  onMouseEnter={() => setVideoMuted(emp.id, false)}
+                  onMouseLeave={() => setVideoMuted(emp.id, true)}
+                />
+              ) : (
+                <img
+                  src={emp.avatarUrl}
+                  alt={emp.name}
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0"
+                  referrerPolicy="no-referrer"
+                />
+              )}
+              <div className="absolute inset-0 bg-linear-to-t from-[#111] via-transparent to-transparent" />
               
               <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                 <div>

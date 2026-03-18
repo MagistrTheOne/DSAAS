@@ -46,6 +46,7 @@ export function CreateEmployee({ onAdd }: CreateEmployeeProps) {
       skills: skills.split(',').map(s => s.trim()).filter(Boolean),
       knowledgeBase: knowledgeBase.split(',').map(s => s.trim()).filter(Boolean),
       complianceMode,
+      instructions: instructions.trim() || undefined,
       budgetLimit: budgetLimit ? parseInt(budgetLimit, 10) : 0,
       avatarUrl: avatarUrl || `https://picsum.photos/seed/${name.replace(/\s+/g, '')}/400/400`,
       economicSwarm: 0,
@@ -59,7 +60,7 @@ export function CreateEmployee({ onAdd }: CreateEmployeeProps) {
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto max-w-4xl mx-auto">
+    <div className="p-8 h-full overflow-y-auto w-full">
       <header className="mb-12">
         <h2 className="text-3xl font-light text-white tracking-tight">Create Employee</h2>
         <p className="text-zinc-500 mt-1">Deploy a new AI agent to your workforce</p>
